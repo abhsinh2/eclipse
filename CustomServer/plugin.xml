@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+	<!--This extension point is used to provide a new runtime type. -->
+	<extension point="org.eclipse.wst.server.core.runtimeTypes">
+		<runtimeType
+            class="com.abhsinh2.server.delegates.CustomServerRuntimeDelegate"
+            description="Custom Server"
+            id="com.abhsinh2.server.customRuntimeServer"
+            name="CustomServer"
+            vendor="ABHSINH2" />
+	</extension>
+	
+	<!-- This extension point is used to provide support for a new server type. -->
+	<extension point="org.eclipse.wst.server.core.serverTypes">
+		<serverType
+            behaviourClass="com.abhsinh2.server.delegates.CustomServerBehaviourDelegate"
+            class="com.abhsinh2.server.delegates.CustomServerDelegate"
+            description="Custom Server"
+            hasConfiguration="true"
+            id="com.abhsinh2.server.customServer"
+            initialState="stopped"
+            launchConfigId="com.abhsinh2.server.customServerLaunchConfiguration"
+            launchModes="run"
+            name="CustomServer"
+            runtime="true"
+            runtimeTypeId="com.abhsinh2.server.customRuntimeServer"
+            startBeforePublish="true"
+            startTimeout="6000000"
+            stopTimeout="3000000"
+            supportsRemoteHosts="true" />
+	</extension>
+	
+	<!--
+    This extension point provides a way to add pages or logic into wizards for a
+    specific runtime, server, or server configuration type.
+    -->
+	<extension point="org.eclipse.wst.server.ui.wizardFragments">
+		<fragment id="com.abhsinh2.server.customWizardFragment"
+			typeIds="com.abhsinh2.server.customServer"
+			class="com.abhsinh2.server.wizards.CustomServerWizardFragment" />
+	</extension>
+	
+	<!-- Preference Start -->
+    <!--
+    The preferences extension point allows plug-ins to add new preference scopes to the Eclipse preference
+    mechanism as well as specify the class to run to initialize default preference values at runtime.
+    -->
+	<extension point="org.eclipse.core.runtime.preferences">
+		<initializer class="com.abhsinh2.server.preferences.CustomServerPreferenceInitializer" />
+        <modifier class="com.abhsinh2.server.preferences.CustomServerPreferenceModifyListener" />
+	</extension>
+	
+	<!--
+    Show server preference on preference page
+    -->
+	<extension point="org.eclipse.ui.preferencePages">
+		<page class="com.abhsinh2.server.preferences.CustomServerPreferencePage"
+            id="com.abhsinh2.server.preferences.CustomServerPreferencePage"
+            name="ABHSINH2" />
+	</extension>
+	<extension point="org.eclipse.ui.preferencePages">
+		<page category="com.abhsinh2.server.preferences.CustomServerPreferencePage"
+            class="com.abhsinh2.server.preferences.CustomServerActionPreferencePage"
+            id="com.abhsinh2.server.preferences.CustomServerActionPreferencePage"
+            name="Action" />
+	</extension>
+	<!-- Preference Finish -->
+	
+	<!-- add entry in properties for Java project or Maven project for custom server-->
+	<!-- Project properties of server -->
+	<extension point="org.eclipse.ui.propertyPages">
+		<page class="com.abhsinh2.server.ui.CustomServerParentPropertyPage" 
+			id="com.abhsinh2.server.parent" 
+			name="Custom Server">
+			<filter name="nature" value="org.eclipse.jdt.core.javanature" />
+			<filter name="nature" value="org.eclipse.m2e.core.maven2Nature" />
+		</page>
+	</extension>
+	<extension point="org.eclipse.ui.propertyPages">
+		<page category="com.abhsinh2.server.parent" 
+			class="com.abhsinh2.server.ui.CustomServerCustomDetailsPropertyPage"
+          	id="com.abhsinh2.server.customDetails"
+          	name="Deployment Settings">
+			<filter name="nature" value="org.eclipse.jdt.core.javanature" />
+			<filter name="nature" value="org.eclipse.m2e.core.maven2Nature" />
+		</page>
+	</extension>
+	<!-- Right Click Properties Finish -->
+	
+	<!-- For Run As Configuration Start -->
+	<!--
+    This extension point provides a configurable mechanism for launching applications.
+    Each launch configuration type has a name, supports one or more modes (run and/or debug),
+    and specifies a delegate responsible for the implementation of launching an application.
+    As of 3.2 the types can also define a migration delegate that can be used to set resource
+    mappings between projects and the launch configurations that launch them.
+    -->
+	<extension point="org.eclipse.debug.core.launchConfigurationTypes">
+		<launchConfigurationType
+            delegate="com.abhsinh2.server.delegates.CustomLaunchConfigurationDelegate"
+            id="com.abhsinh2.server.customServerLaunchConfiguration"
+            modes="run"
+            name="Custom Server"
+            public="true" />
+	</extension>
+
+	<!--
+    This extension point provides a mechanism for contributing a group of tabs to the launch
+    configuration dialog for a type of launch configuration.
+    -->
+	<extension point="org.eclipse.debug.ui.launchConfigurationTabGroups">
+		<launchConfigurationTabGroup
+            class="com.abhsinh2.server.delegates.CustomServerLaunchConfigurationTabGroup"
+            id="com.abhsinh2.server.customServerLaunchConfigurationTabGroup"
+            type="com.abhsinh2.server.customServerLaunchConfiguration" />
+	</extension>
+	
+	<!--
+    This extension point provides a way to associate an image with a launch configuration type.
+    -->
+	<extension point="org.eclipse.debug.ui.launchConfigurationTypeImages">
+		<launchConfigurationTypeImage
+            id="org.eclipse.jst.server.generic.image.ui.ExternalLaunchConfigurationTypeImage"
+            configTypeID="com.abhsinh2.server.customServerLaunchConfiguration"
+            icon="icons/sample.gif" />
+	</extension>
+	<!-- For Run As Configuration Finish -->
+	
+	<!-- Adds section in overview editor page start-->
+	<!--
+    This extension point provides a way to add additional sections into an existing server
+    editor page that contains insertion points.
+    -->
+	<extension point="org.eclipse.wst.server.ui.editorPageSections">
+		<section id="com.abhsinh2.server.customServerSection"
+   			order="0"
+   			insertionId="org.eclipse.wst.server.editor.overview.left"
+   			typeIds="com.abhsinh2.server.customServer"
+   			class="com.abhsinh2.server.editors.CustomServerConfigurationSection" />
+	</extension>
+	<extension point="org.eclipse.wst.server.ui.editorPages">
+		<page id="com.abhsinh2.server.customServer.customMyTab"
+            order="0"
+            name="MyTab"
+            typeIds="com.abhsinh2.server.customServer"
+            class="com.abhsinh2.server.editors.CustomServerCustomEditorPage" />
+	</extension>	
+	<!-- Adds section in overview editor page finish-->
+	
+	<!-- Change image on server starts or stops-->
+	<!--
+	<extension point="org.eclipse.ui.decorators">
+		<decorator class="com.abhsinh2.server.ui.CustomServerDecorator"
+            id="com.abhsinh2.server.decorator"
+            label="Custom decorator"
+            lightweight="true"
+            location="BOTTOM_RIGHT"
+            state="true"
+            icon="icons/sample.gif">
+			<enablement>
+				<or>
+					<objectClass name="org.eclipse.wst.server.core.IServer" />
+					<objectClass name="org.eclipse.wst.server.ui.IServerModule" />
+				</or>
+			</enablement>
+		</decorator>
+	</extension>
+	-->
+	
+	<!-- Context Menu for server in server view start-->
+	<extension point="org.eclipse.ui.navigator.navigatorContent">
+		<navigatorContent activeByDefault="true"
+          	contentProvider="com.abhsinh2.server.actions.CustomServerContentProvider"
+          	id="com.abhsinh2.server.navigatorContent"
+          	labelProvider="com.abhsinh2.server.actions.CustomServerLabelProvider"
+          	name="Custom Server Navigator Content">
+			<triggerPoints>
+				<instanceof value="org.eclipse.wst.server.core.IServer" />
+			</triggerPoints>
+			<possibleChildren>
+				<or>
+					<instanceof value="java.lang.Object" />
+					<instanceof value="org.eclipse.wst.server.core.IServer" />
+				</or>
+			</possibleChildren>
+			<actionProvider class="com.abhsinh2.server.actions.CustomServerActionProvider"
+         		dependsOn="org.eclipse.wst.server.ui.ServersView.ServerActionProvider"
+         		id="com.abhsinh2.server.customContextMenu"
+         		priority="lowest">
+				<enablement>
+					<instanceof value="org.eclipse.wst.server.core.IServer" />
+				</enablement>
+			</actionProvider>
+		</navigatorContent>
+	</extension>
+	<extension point="org.eclipse.ui.navigator.viewer">
+		<viewerContentBinding viewerId="org.eclipse.wst.server.ui.ServersView">
+			<includes>
+				<contentExtension isRoot="false" pattern="com.abhsinh2.server.navigatorContent" />
+			</includes>
+		</viewerContentBinding>
+	</extension>
+	
+	
+	<extension point="org.eclipse.ui.menus">
+		<menuContribution locationURI="popup:org.eclipse.ui.popup.any?after=additions">
+			<command commandId="com.abhsinh2.server.LaunchTerminalCommand"
+                 icon="icons/sample.gif" label="Launch Terminal" tooltip="Launch Terminal">
+				<visibleWhen>
+					<with variable="selection">
+						<count value="1" />
+						<iterate>
+							<instanceof value="org.eclipse.wst.server.core.IServer" />
+						</iterate>
+					</with>
+				</visibleWhen>
+			</command>
+		</menuContribution>
+	</extension>
+	<extension point="org.eclipse.ui.commands">
+		<command id="com.abhsinh2.server.LaunchTerminalCommand" name="Launch Terminal" />
+	</extension>
+	<extension point="org.eclipse.ui.handlers">
+		<handler class="com.abhsinh2.server.handlers.LaunchTerminalCommandHandler"
+          	commandId="com.abhsinh2.server.LaunchTerminalCommand" />
+	</extension>
+	<!-- Context Menu for server in server view End-->
+	
+	<!-- Delete Server Dialog Extension Start-->
+	<extension point="org.eclipse.wst.server.ui.deleteServerDialogExtension">
+		<deleteServerDialogExtension
+          class="com.abhsinh2.server.actions.CustomServerDeleteDialogExtension"
+          id="com.abhsinh2.server.deleteServerDialogExtension" />
+	</extension>
+	<!-- Delete Server Dialog Extension End-->
+</plugin>
