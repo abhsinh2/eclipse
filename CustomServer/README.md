@@ -1,4 +1,4 @@
-Create custom server type
+### Create custom server type
 
 	<!--This extension point is used to provide a new runtime type. -->
 	<extension point="org.eclipse.wst.server.core.runtimeTypes">
@@ -9,10 +9,13 @@ Create custom server type
             name="CustomServer"
             vendor="ABHSINH2" />
 	</extension>
+	
+	
    
 	public class CustomServerRuntimeDelegate extends RuntimeDelegate {
 	
 	}
+	
 
 	<!-- This extension point is used to provide support for a new server type. -->
 	<extension point="org.eclipse.wst.server.core.serverTypes">
@@ -46,6 +49,7 @@ Create custom server type
 			StatusManager.getManager().handle(Status.OK_STATUS, StatusManager.LOG | StatusManager.SHOW);
 		}	
 	}
+	
 
 	public class CustomServerDelegate extends ServerDelegate {	
 		@Override
@@ -68,16 +72,19 @@ Create custom server type
 	
 		}	
 	}
+	
 
 <img src="docs/images/AddCustomServer.png" width="600">
 
-Custom server in Servers view
+
+### Custom server in Servers view
 
 
 <img src="docs/images/ViewCustomServerInServersView.png" width="600">
 
 
-Add custom wizard page while creating new server
+### Add custom wizard page while creating new server
+
 
 	<extension point="org.eclipse.wst.server.ui.wizardFragments">
 		<fragment id="com.abhsinh2.server.customWizardFragment"
@@ -85,9 +92,12 @@ Add custom wizard page while creating new server
 			class="com.abhsinh2.server.wizards.CustomServerWizardFragment" />
 	</extension>
 	
+	
 <img src="docs/images/AddCustomDetailsWhileCreatingNewServer.png" width="600">
 
-Add Preference page from new server
+
+### Add Preference page from new server
+
 
 	<extension point="org.eclipse.core.runtime.preferences">
 		<initializer class="com.abhsinh2.server.preferences.CustomServerPreferenceInitializer" />
@@ -105,9 +115,12 @@ Add Preference page from new server
             name="Action" />
 	</extension>
 	
+	
 <img src="docs/images/AddPreferences.png" width="600">
 
-Add a section in overview tab of server editor page
+
+### Add a section in overview tab of server editor page
+
 
 	<extension point="org.eclipse.wst.server.ui.editorPageSections">
 		<section id="com.abhsinh2.server.customServerSection"
@@ -116,10 +129,13 @@ Add a section in overview tab of server editor page
 	   		typeIds="com.abhsinh2.server.customServer"
 	   		class="com.abhsinh2.server.editors.CustomServerConfigurationSection" />
 	</extension>
+	
 
 <img src="docs/images/EditOverviewPage.png" width="600">
 
-Add a new Tab on server editor page
+
+### Add a new Tab on server editor page
+
 
 	<extension point="org.eclipse.wst.server.ui.editorPages">
 		<page id="com.abhsinh2.server.customServer.customMyTab"
@@ -129,9 +145,12 @@ Add a new Tab on server editor page
 	        class="com.abhsinh2.server.editors.CustomServerCustomEditorPage" />
 	</extension>
 	
+	
 <img src="docs/images/EditOverviewPage.png" width="600">
 
-Add context menu using content provider
+
+### Add context menu using content provider
+
 
 	<extension point="org.eclipse.ui.navigator.navigatorContent">
 		<navigatorContent activeByDefault="true"
@@ -166,9 +185,12 @@ Add context menu using content provider
 		</viewerContentBinding>
 	</extension>
 	
+	
 <img src="docs/images/CustomContextMenu.png" width="600">
 
-Add context menu using command - handler
+
+### Add context menu using command - handler
+
 
 	<extension point="org.eclipse.ui.menus">
 		<menuContribution locationURI="popup:org.eclipse.ui.popup.any?after=additions">
@@ -192,10 +214,13 @@ Add context menu using command - handler
 		<handler class="com.abhsinh2.server.handlers.LaunchTerminalCommandHandler"
 	       	commandId="com.abhsinh2.server.LaunchTerminalCommand" />
 	</extension>
+	
 
 <img src="docs/images/LaunchTerminalCommand.png" width="600">
 
-Add extension for delete server dialog
+
+### Add extension for delete server dialog
+
 
 	<extension point="org.eclipse.wst.server.ui.deleteServerDialogExtension">
 		<deleteServerDialogExtension
@@ -203,7 +228,9 @@ Add extension for delete server dialog
 	        id="com.abhsinh2.server.deleteServerDialogExtension" />
 	</extension>
 	
-Run Java/Maven projects on custom server. Following code will add option in "Run As"
+	
+### Run Java/Maven projects on custom server. Following code will add option in "Run As"
+
 
 	<extension point="org.eclipse.debug.core.launchConfigurationTypes">
 		<launchConfigurationType
@@ -226,9 +253,12 @@ Run Java/Maven projects on custom server. Following code will add option in "Run
             icon="icons/sample.gif" />
 	</extension>
 	
+	
 <img src="docs/images/AddRunAsConfiguration.png" width="600">
 
-Add custom server options to properties of Java/Maven projects (Right click on Maven project and click properties)
+
+### Add custom server options to properties of Java/Maven projects (Right click on Maven project and click properties)
+
 
 	<extension point="org.eclipse.ui.propertyPages">
 		<page class="com.abhsinh2.server.ui.CustomServerParentPropertyPage" 
@@ -247,6 +277,7 @@ Add custom server options to properties of Java/Maven projects (Right click on M
 			<filter name="nature" value="org.eclipse.m2e.core.maven2Nature" />
 		</page>
 	</extension>
+	
 
 <img src="docs/images/ProjectPropertiesPage.png" width="600">
 		
