@@ -280,4 +280,14 @@
 	
 
 <img src="docs/images/ProjectPropertiesPage.png" width="600">
+
+### To create directory in Server project of workspace
+
+```
+server.getServerConfiguration().getLocation()
+```
+
+make sure you have enabled ```hasConfiguration="true"``` in org.eclipse.wst.server.core.serverTypes extension
+
+
 		
